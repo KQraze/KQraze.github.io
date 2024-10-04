@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import {storeToRefs} from "pinia";
 import { useTaskStore } from '@/stores/task';
+import { TableTitles, TableRows } from "@/components/table";
 
 const { table } = storeToRefs(useTaskStore())
 </script>
 
 <template>
   <table>
-<!--    <thead>-->
-<!--      <tr>-->
-<!--        <th v-for="(title, ind) in table.titles" :key="ind">{{ title }}</th>-->
-<!--      </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--      <tr v-for="(item, time) in table.fields">-->
-<!--        <td>{{ time }}</td>-->
-<!--        <td v-for="field in Object.keys(item)"><input type="text" placeholder="Assign a task..." v-model="item[field].text"></td>-->
-<!--      </tr>-->
-<!--    </tbody>-->
+    <thead>
+      <tr>
+        <table-titles :titles="table?.titles ?? []" />
+      </tr>
+    </thead>
+    <tbody>
+      <table-rows />
+    </tbody>
   </table>
 </template>
 
-<style scoped>
+<style>
 table {
   width: 100%;
   min-height: 90vh;

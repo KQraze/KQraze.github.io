@@ -1,35 +1,36 @@
 import {defineStore} from "pinia";
-import {reactive, ref} from "vue";
-import { Time, TTimeFields, TField, TUsersFields, ITable } from './interface'
-import {api} from "@/shared/api";
+import { ref } from "vue";
+import { TTimeFields, TField, TUsersFields, ITable, ITask } from './interface'
+import { api } from "@/shared/api";
 
 const USERS = ['Alex']
-const TIMES_ARRAY: Time[] = ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00']
 
-const usersToFields = (users: string[], time: Time) => users.reduce((fieldsAtUser, user) => {
-    fieldsAtUser[user] = {time, text: ''}
+const usersToFields = (users: string[]) => users.reduce((fieldsAtUser, user) => {
+    // fieldsAtUser[user] = {time, text: ''}
     return fieldsAtUser
 }, {})
 
-const timesToFields = (times: Time[]): TTimeFields => times.reduce((fieldsAtTime, time) => {
-    fieldsAtTime[time] = usersToFields(USERS, time);
+const timesToFields = (times: []): TTimeFields => times.reduce((fieldsAtTime, time) => {
+    // fieldsAtTime[time] = usersToFields(USERS, time);
     return fieldsAtTime;
-} , {}) as TTimeFields
+} , {})
+
+const getTasksRequest = (): Promise<ITask[]> => api.get('users/1/tasks')
+const updateTaskRequest = (task_id: number, description: string): Promise<any> => api.post(`tasks/${task_id}/add`, { description: description })
+const updateNotifyRequest = (task_id: number): Promise<any> => api.post(`tasks/${task_id}/notify`, { notify: true })
 
 
 export const useTaskStore = defineStore('task-store', () => {
-    const tasks = ref([]);
+    const tasks = ref<ITask[]>([]);
 
     const table = ref<ITable>()
 
-    const getUserTasksRequest = (): Promise<any> => api.get('users/1/tasks')
-    const updateTaskRequest = (task_id: number, description: string) => api.post(`tasks/${task_id}/add`, { description: description })
-    const updateNotifyRequest = (task_id: number) => api.post(`tasks/${task_id}/notify`, {  })
+    const initTable = async () => {
+        const response = await getTasksRequest();
 
-    const initTable = () => {
         table.value = {
             titles: ['Time', ...USERS],
-            fields: timesToFields(TIMES_ARRAY)
+            fields: timesToFields([])
         }
     }
 
