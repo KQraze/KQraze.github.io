@@ -5,8 +5,10 @@ interface IProps {
   description: string;
 }
 
-defineProps()
-defineEmits<{ (e: 'update-task', id: number, value: string): void }>()
+const props = defineProps<IProps>()
+const emits = defineEmits<{ (e: 'update-task', id: number, value: string): void }>()
+
+const change = (e: Event) => emits('update-task', props.id, e?.target?.value)
 </script>
 
 <template>
@@ -14,7 +16,8 @@ defineEmits<{ (e: 'update-task', id: number, value: string): void }>()
     <input
         type="text"
         placeholder="Assign a task..."
-        @change="(e) => $emit('update-task', )"
+        :value="description"
+        @change="change"
     >
   </td>
 </template>
