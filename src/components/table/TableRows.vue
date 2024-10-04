@@ -1,11 +1,18 @@
 <script setup lang="ts">
+interface IProps {
+  fields: any
+}
+
+defineProps<IProps>()
+
 import { TableField } from "@/components/table";
 </script>
 
 <template>
-  <tr v-for="(item, time) in table.fields">
+  <tr v-for="(field, time) in fields">
     <td>{{ time }}</td>
-    <table-field v-for="i in 1" />
+    <td>{{ field }}</td>
+<!--    <table-field v-for="field in field" :id="field.id" />-->
   </tr>
 </template>
 

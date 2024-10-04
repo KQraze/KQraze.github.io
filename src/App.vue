@@ -2,8 +2,12 @@
 import {storeToRefs} from "pinia";
 import { useTaskStore } from '@/stores/task';
 import { TableTitles, TableRows } from "@/components/table";
+import {onMounted} from "vue";
 
 const { table } = storeToRefs(useTaskStore())
+const { initTable } = useTaskStore()
+
+onMounted(() => initTable());
 </script>
 
 <template>
