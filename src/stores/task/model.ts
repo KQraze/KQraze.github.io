@@ -34,7 +34,7 @@ export const useTaskStore = defineStore('task-store', () => {
 
     const updateNotifyRequest = async (task_id: number, notifyTime: string): Promise<any> => {
         await api.post(`tasks/${task_id}/notify`, {notify: true});
-        return toast(`Вам назначена задача на ${getTimeWithoutSeconds(notifyTime)}`, {
+        return toast(`You are assigned a task at ${getTimeWithoutSeconds(notifyTime)}`, {
             theme: "light",
             type: "info",
             position: "top-center",
