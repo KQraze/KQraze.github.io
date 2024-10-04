@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {ref} from "vue";
 interface IProps {
   id: number;
   description: string | null;

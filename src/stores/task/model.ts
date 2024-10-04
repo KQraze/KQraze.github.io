@@ -12,26 +12,10 @@ const tasksToRows = (tasks: ITask[]) => tasks.reduce((fieldsAtTime, task) => {
     return fieldsAtTime;
 } , {} as TTimeFields)
 
-/** api */
-const getTasksRequest = async (): Promise<IResponseTasks> => {
-    const response = await api.get('users/1/tasks')
-
-    return response.data;
-}
-
-/** store */
 export const useTaskStore = defineStore('task-store', () => {
     const table = ref<ITable>()
 
-    const initTable = async () => {
-        const data = await getTasksRequest();
-
-        table.value = {
-            titles: ['Time', data.user_name],
-            fields: Object.entries(tasksToRows(data.tasks)).sort((a, b) => a[0].localeCompare(b[0]))
-        }
-    }
-
+    // api requests
     const updateNotifyRequest = async (task_id: number, notifyTime: string): Promise<any> => {
         await api.post(`tasks/${task_id}/notify`, {notify: true});
         return toast(`You are assigned a task at ${getTimeWithoutSeconds(notifyTime)}`, {
@@ -46,6 +30,20 @@ export const useTaskStore = defineStore('task-store', () => {
     const updateTaskRequest = async (task_id: number, description: string, time: string): Promise<void> => {
         await Promise.all([api.post(`tasks/${task_id}/add`, {description: description}), updateNotifyRequest(task_id, time)])
     }
+    const getTasksRequest = async (): Promise<IResponseTasks> => {
+        const response = await api.get('users/1/tasks')
 
-    return { table, initTable, updateNotifyRequest, updateTaskRequest }
+        return response.data;
+    }
+
+    const initTable = async () => {
+        const data = await getTasksRequest();
+
+        table.value = {
+            titles: ['Time', data.user_name],
+            fields: Object.entries(tasksToRows(data.tasks)).sort((a, b) => a[0].localeCompare(b[0]))
+        }
+    }
+
+    return { table, initTable, updateTaskRequest }
 })
