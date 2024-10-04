@@ -2,12 +2,19 @@
 import {storeToRefs} from "pinia";
 import { useTaskStore } from '@/stores/task';
 import { TableTitles, TableRows } from "@/components/table";
-import {onMounted} from "vue";
+import {onMounted, onUnmounted} from "vue";
 
 const { table } = storeToRefs(useTaskStore())
 const { initTable } = useTaskStore()
 
-onMounted(() => initTable());
+let refreshInterval: any;
+
+onMounted(() => {
+  initTable()
+  refreshInterval = setInterval(() => initTable(), 10000)
+});
+
+onUnmounted(() => clearInterval(refreshInterval))
 </script>
 
 <template>
@@ -30,7 +37,7 @@ table {
   background: #fbffef;
 }
 table, th, td {
-  border: 2px solid #202020;
+  border: 1px solid rgba(32, 32, 32, 0.75);
   border-collapse: collapse;
   font-size: 3vh;
 }
