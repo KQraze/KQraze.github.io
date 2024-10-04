@@ -18,7 +18,7 @@ onMounted(() => initTable());
       </tr>
     </thead>
     <tbody>
-      <table-rows />
+      <table-rows :fields="table?.fields ?? []" />
     </tbody>
   </table>
 </template>
@@ -26,16 +26,16 @@ onMounted(() => initTable());
 <style>
 table {
   width: 100%;
-  min-height: 90vh;
+  min-height: 100dvh;
   background: #fbffef;
 }
 table, th, td {
   border: 2px solid #202020;
   border-collapse: collapse;
+  font-size: 3vh;
 }
 
 th {
-  font-size: 24px;
   padding-block: 2vh;
   padding-inline: 2vw;
 }
@@ -43,7 +43,6 @@ th {
 td:first-child {
   max-width: 20px;
   text-align: center;
-  font-size: 24px;
   background: aliceblue;
 }
 
@@ -59,9 +58,9 @@ input {
   background: transparent;
   padding-block: 1vh;
   padding-inline: 2vw;
-  font-size: 18px;
+  font-size: 1em;
   width: 100%;
   height: 100%;
-  font-family: Verdana, sans-serif;
+  font-family: "JetBrains Mono", sans-serif;
 }
 </style>

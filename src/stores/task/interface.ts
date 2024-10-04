@@ -1,10 +1,12 @@
+export type TTimeField = [string, ITask]
+
 export type TTimeFields = {
     [key: string]: ITask
 }
 
 export interface ITable {
     titles: string[];
-    fields: TTimeFields;
+    fields: TTimeField[];
 }
 
 export interface IResponseTasks {

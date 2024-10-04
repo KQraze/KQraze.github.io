@@ -2,13 +2,16 @@
 import {ref} from "vue";
 interface IProps {
   id: number;
-  description: string;
+  description: string | null;
+  time: string;
 }
 
 const props = defineProps<IProps>()
-const emits = defineEmits<{ (e: 'update-task', id: number, value: string): void }>()
+const emits = defineEmits<{ (e: 'update-task', id: number, text: string, time: string): void }>()
 
-const change = (e: Event) => emits('update-task', props.id, e?.target?.value)
+const change = (e: any) => {
+  emits('update-task', props.id, e?.target?.value, props.time)
+}
 </script>
 
 <template>

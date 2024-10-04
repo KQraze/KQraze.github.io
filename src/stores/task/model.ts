@@ -1,12 +1,14 @@
 import {defineStore} from "pinia";
 import { ref } from "vue";
-import type { ITask, ITable, TTimeFields, IResponseTasks } from './interface'
+import type {ITask, ITable, IResponseTasks, TTimeFields} from './interface'
 import { api } from "@/shared/api";
+import { toast } from "vue3-toastify";
+import 'vue3-toastify/dist/index.css';
+
+const getTimeWithoutSeconds = (time: string) => time.split(':', 2).join(':');
 
 const tasksToRows = (tasks: ITask[]) => tasks.reduce((fieldsAtTime, task) => {
-    const timeWithoutSeconds = task.time.split(':', 2).join(':');
-
-    fieldsAtTime[timeWithoutSeconds] = { ...task }
+    fieldsAtTime[getTimeWithoutSeconds(task.time)] = { ...task }
     return fieldsAtTime;
 } , {} as TTimeFields)
 
@@ -16,13 +18,9 @@ const getTasksRequest = async (): Promise<IResponseTasks> => {
 
     return response.data;
 }
-const updateTaskRequest = (task_id: number, description: string): Promise<any> => api.post(`tasks/${task_id}/add`, { description: description })
-const updateNotifyRequest = (task_id: number): Promise<any> => api.post(`tasks/${task_id}/notify`, { notify: true })
 
 /** store */
 export const useTaskStore = defineStore('task-store', () => {
-    const tasks = ref<ITask[]>([]);
-
     const table = ref<ITable>()
 
     const initTable = async () => {
@@ -30,9 +28,24 @@ export const useTaskStore = defineStore('task-store', () => {
 
         table.value = {
             titles: ['Time', data.user_name],
-            fields: tasksToRows(data.tasks)
+            fields: Object.entries(tasksToRows(data.tasks)).sort((a, b) => a[0].localeCompare(b[0]))
         }
     }
 
-    return { table, initTable }
+    const updateNotifyRequest = async (task_id: number, notifyTime: string): Promise<any> => {
+        await api.post(`tasks/${task_id}/notify`, {notify: true});
+        return toast(`Вам назначена задача на ${getTimeWithoutSeconds(notifyTime)}`, {
+            theme: "light",
+            type: "info",
+            position: "top-center",
+            autoClose: 3000,
+            transition: "slide",
+            dangerouslyHTMLString: true
+        });
+    }
+    const updateTaskRequest = async (task_id: number, description: string, time: string): Promise<void> => {
+        await Promise.all([api.post(`tasks/${task_id}/add`, {description: description}), updateNotifyRequest(task_id, time)])
+    }
+
+    return { table, initTable, updateNotifyRequest, updateTaskRequest }
 })
