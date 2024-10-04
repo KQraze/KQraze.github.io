@@ -22,12 +22,9 @@ export const useTaskStore = defineStore('task-store', () => {
 
     const table = ref<ITable>()
 
-    const getUserTasks = (): Promise<any> => {
-        return api.get('users/1/tasks')
-    }
-
-    const updateTask = (id: number, description: string) => api.post(`tasks/${id}/add`, { description: description })
-
+    const getUserTasksRequest = (): Promise<any> => api.get('users/1/tasks')
+    const updateTaskRequest = (task_id: number, description: string) => api.post(`tasks/${task_id}/add`, { description: description })
+    const updateNotifyRequest = (task_id: number) => api.post(`tasks/${task_id}/notify`, {  })
 
     const initTable = () => {
         table.value = {
