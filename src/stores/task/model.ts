@@ -3,12 +3,6 @@ import { ref } from "vue";
 import type { ITask, ITable, TTimeFields, IResponseTasks } from './interface'
 import { api } from "@/shared/api";
 
-/** deprecated */
-// const usersToFields = (users: []) => users.reduce((fieldsAtUser, user) => {
-//     fieldsAtUser[user] = { id:, text: ''}
-//     return fieldsAtUser
-// }, {})
-
 const tasksToRows = (tasks: ITask[]) => tasks.reduce((fieldsAtTime, task) => {
     const timeWithoutSeconds = task.time.split(':', 2).join(':');
 

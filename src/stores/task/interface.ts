@@ -1,10 +1,3 @@
-export type TField = { time: string, text: string };
-
-/** deprecated */
-// export type TUsersFields = {
-//     [key: string]: TField;
-// }
-
 export type TTimeFields = {
     [key: string]: ITask
 }
