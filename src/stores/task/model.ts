@@ -2,7 +2,6 @@ import {defineStore} from "pinia";
 import { ref } from "vue";
 import type {ITask, ITable, IResponseTasks, TTimeFields} from './interface'
 import { api } from "@/shared/api";
-import { toast } from "vue3-toastify";
 import 'vue3-toastify/dist/index.css';
 
 const getTimeWithoutSeconds = (time: string) => time.split(':', 2).join(':');
@@ -18,14 +17,6 @@ export const useTaskStore = defineStore('task-store', () => {
     // api requests
     const updateNotifyRequest = async (task_id: number, notifyTime: string): Promise<any> => {
         await api.post(`tasks/${task_id}/notify`, {notify: true});
-        return toast(`You are assigned a task at ${getTimeWithoutSeconds(notifyTime)}`, {
-            theme: "light",
-            type: "info",
-            position: "top-center",
-            autoClose: 3000,
-            transition: "slide",
-            dangerouslyHTMLString: true
-        });
     }
     const updateTaskRequest = async (task_id: number, description: string, time: string): Promise<void> => {
         await Promise.all([api.post(`tasks/${task_id}/add`, {description: description}), updateNotifyRequest(task_id, time)])
