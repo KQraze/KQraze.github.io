@@ -11,7 +11,7 @@ let refreshInterval: any;
 
 onMounted(() => {
   initTable()
-  refreshInterval = setInterval(() => initTable(), 10000)
+  refreshInterval = setInterval(() => initTable(), 3000)
 });
 
 onUnmounted(() => clearInterval(refreshInterval))
