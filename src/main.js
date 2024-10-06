@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from "pinia";
 import App from './App.vue'
 import './registerServiceWorker'
-import './registerFirebaseMessages'
+import './firebase/index.ts'
 
 
 const app = createApp(App)

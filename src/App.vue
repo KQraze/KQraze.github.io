@@ -2,19 +2,12 @@
 import {storeToRefs} from "pinia";
 import { useTaskStore } from '@/stores/task';
 import { TableTitles, TableRows } from "@/components/table";
-import {onMounted, onUnmounted} from "vue";
+import {useTaskDatabase} from "@/shared/api";
 
 const { table } = storeToRefs(useTaskStore())
 const { initTable } = useTaskStore()
 
-let refreshInterval: any;
-
-onMounted(() => {
-  initTable()
-  refreshInterval = setInterval(() => initTable(), 3000)
-});
-
-onUnmounted(() => clearInterval(refreshInterval))
+const { updateTask } = useTaskDatabase(initTable);
 </script>
 
 <template>
@@ -25,7 +18,7 @@ onUnmounted(() => clearInterval(refreshInterval))
       </tr>
     </thead>
     <tbody>
-      <table-rows :fields="table?.fields ?? []" />
+      <table-rows :fields="table?.fields ?? []" @update-task="(id, text) => updateTask(id, text)" />
     </tbody>
   </table>
   <main class="table" v-else>

@@ -7,8 +7,8 @@ interface IProps {
 }
 
 defineProps<IProps>()
+defineEmits<{ (e: 'update-task', id: number, text: string, time: string): void }>()
 
-const { updateTaskRequest } = useTaskStore()
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const { updateTaskRequest } = useTaskStore()
         :id="item[1]?.id"
         :description="item[1]?.description"
         :time="item[1]?.time"
-        @update-task="updateTaskRequest"
+        @update-task="(id, name, time) => $emit('update-task', id, name, time)"
     />
   </tr>
 </template>
