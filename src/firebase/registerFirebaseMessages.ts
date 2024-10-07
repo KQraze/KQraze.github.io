@@ -18,14 +18,14 @@ getToken(messaging, { vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY }).then(
 // Обработка уведомлений в активном приложении
 onMessage(messaging, (payload) => {
     console.log(payload);
-    toast(`${payload.notification?.body}`, {
-        theme: "light",
-        type: "info",
-        position: "top-center",
-        autoClose: 3000,
-        transition: "slide",
-        dangerouslyHTMLString: true
-    });
+    // toast(`${payload.notification?.body}`, {
+    //     theme: "light",
+    //     type: "info",
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //     transition: "slide",
+    //     dangerouslyHTMLString: true
+    // });
 });
 
 if ('serviceWorker' in navigator) {

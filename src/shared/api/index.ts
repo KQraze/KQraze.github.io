@@ -9,6 +9,7 @@ import {
 import {
     database,
 } from "@/firebase";
+import {toast} from "vue3-toastify";
 
 export const api = axios.create({
     // @ts-ignore
@@ -21,6 +22,15 @@ export const useTaskDatabase = (setData: (data: any) => any) => {
 
     onValue(data, (snapshot) => {
         setData(snapshot.val())
+
+        toast(`The tasks have been changed`, {
+            theme: "light",
+            type: "info",
+            position: "top-center",
+            autoClose: 3000,
+            transition: "slide",
+            dangerouslyHTMLString: true
+        });
     })
 
     const updateTask = (id: number, description: string) => {
