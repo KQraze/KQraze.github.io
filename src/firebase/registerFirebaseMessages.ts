@@ -17,6 +17,7 @@ getToken(messaging, { vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY }).then(
 
 // Обработка уведомлений в активном приложении
 onMessage(messaging, (payload) => {
+    console.log(payload);
     toast(`${payload.notification?.body}`, {
         theme: "light",
         type: "info",
