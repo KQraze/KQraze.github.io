@@ -22,5 +22,5 @@ messaging.onBackgroundMessage((payload) => {
         icon: '/firebase-logo.png',  // Укажите путь к иконке уведомления
     };
 
-    self.registration.showNotification(notificationTitle, notificationOptions).then(() => true);
+    self.registration.showNotification(notificationTitle, notificationOptions).then((value) => console.log(value));
 })
