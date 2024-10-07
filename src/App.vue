@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import {storeToRefs} from "pinia";
 import { useTaskStore } from '@/stores/task';
+import {useNotificationStore} from "@/stores/notification";
 import { TableTitles, TableRows } from "@/components/table";
 import {useTaskDatabase} from "@/shared/api";
+import {onMounted} from "vue";
 
 const { table } = storeToRefs(useTaskStore())
 const { initTable } = useTaskStore()
+const { showModalForNotification } = useNotificationStore();
 
 const { updateTask } = useTaskDatabase(initTable);
+
+onMounted(() => showModalForNotification())
 </script>
 
 <template>
@@ -22,7 +27,7 @@ const { updateTask } = useTaskDatabase(initTable);
     </tbody>
   </table>
   <main class="table" v-else>
-    <p>Загрузка таблицы...</p>
+    <p>Load table...</p>
   </main>
 </template>
 
@@ -35,11 +40,11 @@ table {
 table, th, td {
   border: 1px solid rgba(32, 32, 32, 0.75);
   border-collapse: collapse;
-  font-size: 3vh;
+  font-size: 2.8vh;
 }
 
 th {
-  padding-block: 2vh;
+  padding-block: 1.9vh;
   padding-inline: 2vw;
 }
 
