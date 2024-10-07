@@ -9,7 +9,6 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
 dist-ssr
 coverage
 *.local
@@ -28,3 +27,24 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+/public/
+/src/
+/.env
+/.firebaserc
+/.gitignore
+/firebase.json
+/index.html
+/jsconfig.json
+/package.json
+/package-lock.json
+/pwa_lytko_com.crt
+/pwa_lytko_com.full.crt
+/pwa_lytko_com.key
+/README.md
+/tsconfig.app.json
+/tsconfig.json
+/tsconfig.node.json
+/vite.config.js
+/vite-env.d.ts
+/.vscode/
+/.firebase/
